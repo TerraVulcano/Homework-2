@@ -2,8 +2,6 @@ import com.codeborne.selenide.Configuration;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
-import java.io.File;
-
 import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.open;
@@ -24,7 +22,10 @@ public class HomeTest {
         String currentAddress = "My Current Address 1234";
         String myMonth = "4";
         String myYear = "1988";
-        File pic = new File("src/test/resourses/vulcano.jpg");
+        String subject = "Chemistry";
+        String picture = "vulcano.jpg";
+        String state = "Rajasthan";
+        String city = "Jaipur";
 
         open("https://demoqa.com/automation-practice-form");
 
@@ -36,28 +37,24 @@ public class HomeTest {
         $("#dateOfBirthInput").click();
         $(".react-datepicker__month-select").selectOptionByValue(myMonth);
         $(".react-datepicker__year-select").selectOptionByValue(myYear);
-        $(".react-datepicker__day--014").doubleClick();
-        $("#subjectsInput").setValue("art");
-        $("#subjectsInput").pressEnter();
-        $("#subjectsInput").setValue("ma");
-        $("#subjectsInput").pressEnter();
-
+        $(".react-datepicker__day--014").click();
+        $("#subjectsInput").setValue(subject).pressEnter();
         $("[for='hobbies-checkbox-3']").click();
-
-        $("#uploadPicture").uploadFile(pic);
-
+        $("#uploadPicture").uploadFromClasspath(picture);
         $("#currentAddress").setValue(currentAddress);
-        $("#react-select-3-input").setValue("Utt");
-        $("#react-select-3-input").pressEnter();
-        $("#react-select-4-input").setValue("Agr");
-        $("#react-select-4-input").pressEnter();
-
-
+        $("#react-select-3-input").setValue(state).pressEnter();
+        $("#react-select-4-input").setValue(city).pressEnter();
         $("#submit").click();
 
-
-
-
-    //    $("#output").shouldHave(text(firstName), text("aa@aa.aa"), text("My Current Address 1234"), text("y Permanent Address 4321"));
+        $(".table-responsive").shouldHave(text(firstName + " " + lastName),
+                        text(userEmail),
+                        text("Male"),
+                        text(userNumber),
+                        text("14 May,1988"),
+                        text(subject),
+                        text("Music"),
+                        text(picture),
+                        text(currentAddress),
+                        text(state + " " + city));
     }
 }
